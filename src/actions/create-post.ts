@@ -20,7 +20,7 @@ interface CreatePostFormState {
     }
 }
 
-export async function createPost(formState: CreatePostFormState, formData: FormData): Promise<CreatePostFormState> {
+export async function createPost(slug: string, formState: CreatePostFormState, formData: FormData): Promise<CreatePostFormState> {
 
     const result = createPostSchema.safeParse({
         title: formData.get('title'),
@@ -28,7 +28,6 @@ export async function createPost(formState: CreatePostFormState, formData: FormD
     })
 
     if (!result.success) {
-        console.log(result.error.flatten().fieldErrors)
         return {
             errors: result.error.flatten().fieldErrors
         }
@@ -43,9 +42,45 @@ export async function createPost(formState: CreatePostFormState, formData: FormD
         }
     }
 
-    return {
-        errors: {}
+    const topic = await db.topic.findFirst({
+        where: { slug }
+    });
+
+    if (!topic) {
+        return {
+            errors: {
+                _form: ['Cannot find topic']
+            }
+        }
+    }
+
+    let post: Post;
+    try {
+        post = await db.post.create({
+            data: {
+                title: result.data.title,
+                content: result.data.content,
+                userId: session.user.id,
+                topicId: topic.id
+            }
+        })
+    } catch (e) {
+        if (e instanceof Error) {
+            return {
+                errors: {
+                    _form: [e.message]
+                }
+            }
+        } else {
+            return {
+                errors: {
+                    _form: ['Failed to create post']
+                }
+            }
+        }
     }
 
     // revalidate view topic page
+    revalidatePath(paths.viewTopic(slug))
+    redirect(paths.viewPost(slug, post.id))
 }

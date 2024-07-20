@@ -19,7 +19,7 @@ export default function ViewTopicPage({params}: ViewTopicPageProps) {
             </div>
 
             <div>
-                <PostCreateForm/>
+                <PostCreateForm slug={slug}/>
             </div>
         </div>
         
