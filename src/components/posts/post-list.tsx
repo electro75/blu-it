@@ -1,9 +1,16 @@
 import type { Post, User, Topic } from '@prisma/client';
+import { PostWithData } from '@/db/queries/post';
 import Link from 'next/link';
 import paths from '@/paths';
 
+interface PostListProps {
+  fetchData: () => Promise<PostWithData[]>
+}
+
 // TODO: Get list of posts into this component somehow
-export default function PostList() {
+export default async function PostList({fetchData}: PostListProps) {
+
+  const posts = await fetchData();
   const renderedPosts = posts.map((post) => {
     const topicSlug = post.topic.slug;
 
@@ -13,7 +20,7 @@ export default function PostList() {
 
     return (
       <div key={post.id} className="border rounded p-2">
-        <Link href={paths.postShow(topicSlug, post.id)}>
+        <Link href={paths.viewPost(topicSlug, post.id)}>
           <h3 className="text-lg font-bold">{post.title}</h3>
           <div className="flex flex-row gap-8">
             <p className="text-xs text-gray-400">By {post.user.name}</p>
