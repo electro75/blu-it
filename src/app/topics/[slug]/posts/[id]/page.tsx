@@ -22,7 +22,7 @@ export default async function PostShowPage({ params }: PostShowPageProps) {
       </Link>
       <PostShow postId={id}/>
       <CommentCreateForm postId={id} startOpen />
-      <CommentList fetchData={() => fetchCommentsByPostId(id)} />
+      <CommentList postId={id} />
     </div>
   );
 }
