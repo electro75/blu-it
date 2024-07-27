@@ -8,7 +8,14 @@ export default function SearchInput() {
     
     return (
         <form action={actions.search} >
-            <Input defaultValue={searchParams.get('term') || ''} name="term"/>
+            <Input 
+                defaultValue={searchParams.get('term') || ''} 
+                name="term" 
+                placeholder="What are you loking for?" 
+                isClearable={true}
+                size="md"
+                onClear={() => {}}
+                />
         </form>
         
     )
