@@ -14,6 +14,9 @@ export default function SearchInput() {
                 placeholder="What are you loking for?" 
                 isClearable={true}
                 size="md"
+                classNames={{
+                    inputWrapper:["h-10 py-1"]
+                }}
                 onClear={() => {}}
                 />
         </form>
