@@ -1,5 +1,5 @@
 "use client";
-import { Button, Textarea, Popover, PopoverContent, PopoverTrigger, Input } from "@nextui-org/react";
+import { Button, Textarea, Input } from "@nextui-org/react";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure} from "@nextui-org/react";
 
 import * as actions from "@/actions"
@@ -21,7 +21,7 @@ export default function PostCreateForm({slug}: PostCreateFormProps) {
         <>
             <Button color="primary" onPress={() => { onOpen() }} >New</Button>
             <Modal 
-            size="4xl" 
+            size="2xl" 
             isOpen={isOpen} 
             onClose={onClose} 
             >
@@ -32,7 +32,7 @@ export default function PostCreateForm({slug}: PostCreateFormProps) {
                 <ModalBody>
                 <form action={action}>
                         <div className="flex flex-col gap-4 p-4" >
-                            <Input 
+                            <Input
                                 name="title" 
                                 label="Title" 
                                 labelPlacement="outside" 
@@ -47,15 +47,22 @@ export default function PostCreateForm({slug}: PostCreateFormProps) {
                                 placeholder="Content"
                                 isInvalid={!!formState.errors.content}
                                 errorMessage={formState.errors.content?.join(', ')}
+                                minRows={6}
                                 />
 
                             {formState.errors._form ? <div className="bg-red-100 p-2 border rounded border-red-400 text-red-600 text-xs">{formState.errors._form.join(', ')}</div> : <></> }
-                            <div className="w-14 self-center">
-                                <FormButton>Create</FormButton>
-                            </div>
                         </div>
                     </form>
                 </ModalBody>
+                <ModalFooter>
+                    <Button color="danger" variant="light" onPress={onClose}>
+                        Close
+                    </Button>
+                    <FormButton>Publish</FormButton>
+                    {/* <Button color="primary" onPress={onClose}>
+                        Action
+                    </Button> */}
+              </ModalFooter>
                 </>
             )}
             </ModalContent>
