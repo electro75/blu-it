@@ -5,6 +5,7 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure}
 import * as actions from "@/actions"
 import { useFormState } from "react-dom"
 import FormButton from "@/components/common/form-button";
+import PostEditor from "@/components/post-editor";
 
 interface PostCreateFormProps {
     slug: string
@@ -21,7 +22,7 @@ export default function PostCreateForm({slug}: PostCreateFormProps) {
         <>
             <Button color="primary" onPress={() => { onOpen() }} >New</Button>
             <Modal 
-            size="2xl" 
+            size="full" 
             isOpen={isOpen} 
             onClose={onClose} 
             >
@@ -40,7 +41,11 @@ export default function PostCreateForm({slug}: PostCreateFormProps) {
                                 isInvalid={!!formState.errors.title}
                                 errorMessage={formState.errors.title?.join(', ')}
                             />
-                            <Textarea 
+                            <div className="mt-4">
+                                <PostEditor></PostEditor>
+                            </div>
+                            
+                            {/* <Textarea 
                                 name="content" 
                                 label="Content" 
                                 labelPlacement="outside" 
@@ -50,7 +55,7 @@ export default function PostCreateForm({slug}: PostCreateFormProps) {
                                 minRows={6}
                                 />
 
-                            {formState.errors._form ? <div className="bg-red-100 p-2 border rounded border-red-400 text-red-600 text-xs">{formState.errors._form.join(', ')}</div> : <></> }
+                            {formState.errors._form ? <div className="bg-red-100 p-2 border rounded border-red-400 text-red-600 text-xs">{formState.errors._form.join(', ')}</div> : <></> } */}
                         </div>
                     </form>
                 </ModalBody>
